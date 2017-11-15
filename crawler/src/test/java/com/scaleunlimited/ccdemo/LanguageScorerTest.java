@@ -19,7 +19,7 @@ public class LanguageScorerTest {
 		String arabicText = "الكرامة والحقوق. وقد وهبوا عقلاً وضميرًا وعليهم أن يعامل بعضهم بعضًا بروح الإخاء";
 		
 		String mixedFarsiText = "همه دارای عقل و وجدان میباشند و باید نسبت بیکدیگر باand this is English روح برادری رفتار کنند";
-		LanguageScorer langScorer = new LanguageScorer();
+		LanguageScorer langScorer = new LanguageScorer("fa");
 		
 		ValidUrl url = new ValidUrl("http://foo.com");
 		ParsedUrl parsedUrl = new ParsedUrl(url, farsiText, null, null, null, 0);

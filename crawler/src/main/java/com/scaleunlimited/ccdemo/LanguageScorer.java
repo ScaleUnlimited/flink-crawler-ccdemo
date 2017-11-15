@@ -18,18 +18,12 @@ import com.scaleunlimited.flinkcrawler.parser.ParserResult;
 @SuppressWarnings("serial")
 public class LanguageScorer extends BasePageScorer {
 
-	private static String DEFAULT_LANGUAGE = "fa";	// Farsi
-
-	private static String _desiredLanguage;
+	private static String _focusLanguage;
 	private transient LanguageDetector _languageDetector;
 	private transient TextObjectFactory _textObjectFactory;
 	
-	public LanguageScorer() {
-		this(DEFAULT_LANGUAGE);
-	}
-	
-	public LanguageScorer(String desiredLanguage) {
-		_desiredLanguage = desiredLanguage;
+	public LanguageScorer(String focusLanguage) {
+		_focusLanguage = focusLanguage;
 	}
 	
 	private void load() {
@@ -59,7 +53,7 @@ public class LanguageScorer extends BasePageScorer {
 		
 		List<DetectedLanguage> result = _languageDetector.getProbabilities(textObject);
 		DetectedLanguage best = result.get(0);
-		if (best.getLocale().getLanguage().equals(_desiredLanguage)) {
+		if (best.getLocale().getLanguage().equals(_focusLanguage)) {
 			return 1;
 		}
 		return 0;

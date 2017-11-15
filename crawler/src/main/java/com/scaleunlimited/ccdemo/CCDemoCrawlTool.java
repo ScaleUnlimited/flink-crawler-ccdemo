@@ -33,7 +33,8 @@ import crawlercommons.util.Headers;
 public class CCDemoCrawlTool {
 
 	public static final long DO_NOT_FORCE_CRAWL_DELAY = -1L;
-
+	public static String DEFAULT_LANGUAGE = "fa";	// Farsi
+	
 	public static class CrawlToolOptions {
 		
 		private String _urlsFilename;
@@ -45,7 +46,7 @@ public class CCDemoCrawlTool {
         private int _maxThreads = 1;
         private int _parallelism = CrawlTopologyBuilder.DEFAULT_PARALLELISM;
         private String _outputFile = null;
-        
+        private String _focusLanguage = DEFAULT_LANGUAGE;
         private String _cacheDir;
         private String _commonCrawlId;
         
@@ -104,6 +105,10 @@ public class CCDemoCrawlTool {
 			_outputFile = outputFile;
 	    }
 		
+		@Option(name = "-focuslang", usage = "Desired language - specified with two character code - for the focused crawl (default=fa)", required = false)
+	    public void setFocusLanguage(String focusLanguage) {
+			_focusLanguage = focusLanguage;
+	    }
 		
 		public String getSeedUrlsFilename() {
 			return _urlsFilename;
@@ -155,6 +160,10 @@ public class CCDemoCrawlTool {
 		
 		public String getOutputFile() {
 			return _outputFile;
+		}
+		
+		public String getFocusLanguage() {
+			return _focusLanguage;
 		}
 	}
 	
@@ -262,7 +271,7 @@ public class CCDemoCrawlTool {
 				.setUrlFilter(urlValidator)
 				.setSiteMapFetcherBuilder(siteMapFetcherBuilder)
 				.setPageFetcherBuilder(pageFetcherBuilder)
-				.setPageParser(new FocusedPageParser(new LanguageScorer()))
+				.setPageParser(new FocusedPageParser(new LanguageScorer(options.getFocusLanguage())))
 				.setForceCrawlDelay(options.getForceCrawlDelay())
 				.setDefaultCrawlDelay(options.getDefaultCrawlDelay())
 				.setParallelism(options.getParallelism());
