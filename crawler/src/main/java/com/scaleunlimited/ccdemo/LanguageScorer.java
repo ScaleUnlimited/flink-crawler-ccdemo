@@ -13,6 +13,7 @@ import com.optimaize.langdetect.text.CommonTextObjectFactories;
 import com.optimaize.langdetect.text.TextObject;
 import com.optimaize.langdetect.text.TextObjectFactory;
 import com.scaleunlimited.flinkcrawler.focused.BasePageScorer;
+import com.scaleunlimited.flinkcrawler.metrics.CrawlerAccumulator;
 import com.scaleunlimited.flinkcrawler.parser.ParserResult;
 
 @SuppressWarnings("serial")
@@ -21,6 +22,7 @@ public class LanguageScorer extends BasePageScorer {
 	private static String _focusLanguage;
 	private transient LanguageDetector _languageDetector;
 	private transient TextObjectFactory _textObjectFactory;
+	private CrawlerAccumulator _crawlerAccumulator;
 	
 	public LanguageScorer(String focusLanguage) {
 		_focusLanguage = focusLanguage;
@@ -53,10 +55,22 @@ public class LanguageScorer extends BasePageScorer {
 		
 		List<DetectedLanguage> result = _languageDetector.getProbabilities(textObject);
 		DetectedLanguage best = result.get(0);
-		if (best.getLocale().getLanguage().equals(_focusLanguage)) {
+		String bestLang = best.getLocale().getLanguage();
+		_crawlerAccumulator.increment("LanguageDetector", bestLang, 1);
+		if (bestLang.equals(_focusLanguage)) {
 			return 1;
 		}
 		return 0;
+	}
+
+	@Override
+	public void close() throws Exception {
+		
+	}
+
+	@Override
+	public void open(CrawlerAccumulator crawlerAccumulator) throws Exception {
+		_crawlerAccumulator = crawlerAccumulator;
 	}
 
 }

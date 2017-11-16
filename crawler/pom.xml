@@ -633,7 +633,7 @@ under the License.
 							<transformers>
 								<!-- add Main-Class to manifest file -->
 								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-									<mainClass>com.scaleunlimited.flinkcrawler.tools.CrawlTool</mainClass>
+									<mainClass>com.scaleunlimited.ccdemo.CCDemoCrawlTool</mainClass>
 								</transformer>
 							</transformers>
 							<createDependencyReducedPom>false</createDependencyReducedPom>
