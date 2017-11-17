@@ -54,11 +54,13 @@ public class LanguageScorer extends BasePageScorer {
 //		Optional<LdLocale> lang = _languageDetector.detect(textObject);
 		
 		List<DetectedLanguage> result = _languageDetector.getProbabilities(textObject);
-		DetectedLanguage best = result.get(0);
-		String bestLang = best.getLocale().getLanguage();
-		_crawlerAccumulator.increment("LanguageDetector", bestLang, 1);
-		if (bestLang.equals(_focusLanguage)) {
-			return 1;
+		if (!result.isEmpty()) {
+			DetectedLanguage best = result.get(0);
+			String bestLang = best.getLocale().getLanguage();
+			_crawlerAccumulator.increment("LanguageDetector", bestLang, 1);
+			if (bestLang.equals(_focusLanguage)) {
+				return 1;
+			}
 		}
 		return 0;
 	}
