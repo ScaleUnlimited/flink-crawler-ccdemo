@@ -146,7 +146,7 @@ public class CCDemoCrawlTool {
         builder.build().execute();
     }
     
-    private static BaseUrlLengthener getUrlLengthener(CrawlToolOptions options,
+    private static BaseUrlLengthener getUrlLengthener(CCDemoOptions options,
             UserAgent userAgent) {
         if (options.isNoLengthen()) {
             return new NoopUrlLengthener();
@@ -156,7 +156,7 @@ public class CCDemoCrawlTool {
         return new SimpleUrlLengthener(userAgent, maxConnectionsPerHost);
     }
 
-    private static BaseHttpFetcherBuilder getPageFetcherBuilder(CrawlToolOptions options,
+    private static BaseHttpFetcherBuilder getPageFetcherBuilder(CCDemoOptions options,
             UserAgent userAgent) throws IOException {
         if (options.isCommonCrawl()) {
             return new CommonCrawlFetcherBuilder(options.getFetchersPerTask(), userAgent,
@@ -167,7 +167,7 @@ public class CCDemoCrawlTool {
                 .setDefaultMaxContentSize(options.getMaxContentSize());
     }
 
-    private static BaseHttpFetcherBuilder getSitemapFetcherBuilder(CrawlToolOptions options,
+    private static BaseHttpFetcherBuilder getSitemapFetcherBuilder(CCDemoOptions options,
             UserAgent userAgent) throws IOException {
         if (options.isCommonCrawl()) {
             // Common crawl index doesn't have sitemap files.
@@ -180,7 +180,7 @@ public class CCDemoCrawlTool {
                 .setDefaultMaxContentSize(SiteMapParser.MAX_BYTES_ALLOWED);
     }
 
-    private static BaseHttpFetcherBuilder getRobotsFetcherBuilder(CrawlToolOptions options,
+    private static BaseHttpFetcherBuilder getRobotsFetcherBuilder(CCDemoOptions options,
             UserAgent userAgent) throws IOException {
 
         // Although the static Common Crawl data does have robots.txt files

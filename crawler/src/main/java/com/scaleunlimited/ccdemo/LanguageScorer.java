@@ -19,10 +19,10 @@ import com.scaleunlimited.flinkcrawler.parser.ParserResult;
 @SuppressWarnings("serial")
 public class LanguageScorer extends BasePageScorer {
 
-	private static String _focusLanguage;
+	private String _focusLanguage;
 	private transient LanguageDetector _languageDetector;
 	private transient TextObjectFactory _textObjectFactory;
-	private CrawlerAccumulator _crawlerAccumulator;
+	private transient CrawlerAccumulator _crawlerAccumulator;
 	
 	public LanguageScorer(String focusLanguage) {
 		_focusLanguage = focusLanguage;
