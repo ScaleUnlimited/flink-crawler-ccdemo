@@ -3,6 +3,8 @@ package com.scaleunlimited.ccdemo;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.flink.api.common.functions.RuntimeContext;
+
 import com.optimaize.langdetect.DetectedLanguage;
 import com.optimaize.langdetect.LanguageDetector;
 import com.optimaize.langdetect.LanguageDetectorBuilder;
@@ -22,7 +24,7 @@ public class LanguageScorer extends BasePageScorer {
 	private String _focusLanguage;
 	private transient LanguageDetector _languageDetector;
 	private transient TextObjectFactory _textObjectFactory;
-	private transient CrawlerAccumulator _crawlerAccumulator;
+	private transient CrawlerAccumulator _accumulator;
 	
 	public LanguageScorer(String focusLanguage) {
 		_focusLanguage = focusLanguage;
@@ -57,7 +59,7 @@ public class LanguageScorer extends BasePageScorer {
 		if (!result.isEmpty()) {
 			DetectedLanguage best = result.get(0);
 			String bestLang = best.getLocale().getLanguage();
-			_crawlerAccumulator.increment("LanguageDetector", bestLang, 1);
+			_accumulator.increment("LanguageDetector", bestLang, 1);
 			if (bestLang.equals(_focusLanguage)) {
 				return 1;
 			}
@@ -71,8 +73,8 @@ public class LanguageScorer extends BasePageScorer {
 	}
 
 	@Override
-	public void open(CrawlerAccumulator crawlerAccumulator) throws Exception {
-		_crawlerAccumulator = crawlerAccumulator;
+	public void open(RuntimeContext context) throws Exception {
+        _accumulator = new CrawlerAccumulator(context);
 	}
 
 }
