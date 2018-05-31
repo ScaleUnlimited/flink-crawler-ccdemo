@@ -54,7 +54,7 @@ under the License.
 		
 		<flink-crawler.version>1.0-SNAPSHOT</flink-crawler.version>
 
-		<flink.version>1.5-SNAPSHOT</flink.version>
+		<flink.version>1.5.0</flink.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<tika.version>1.16</tika.version>
 		<log4j.version>1.2.17</log4j.version>
