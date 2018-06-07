@@ -28,12 +28,33 @@ under the License.
 	<name>CrawlerCommons language detector using flink-crawler</name>
 	<url>https://github.com/ScaleUnlimited/flink-crawler-ccdemo</url>
 
+    <repositories>
+        <repository>
+            <id>apache.snapshots</id>
+            <name>Apache Development Snapshot Repository</name>
+            <url>https://repository.apache.org/content/repositories/snapshots/</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+
+        <repository>
+            <id>crawler-commons</id>
+            <name>Sonatype release candidate for crawler-commons 0.8</name>
+            <url>https://oss.sonatype.org/content/repositories/comgithubcrawler-commons-1005/</url>
+        </repository>
+
+    </repositories>
+
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		
 		<flink-crawler.version>1.0-SNAPSHOT</flink-crawler.version>
 
-		<flink.version>1.4.0</flink.version>
+		<flink.version>1.5.0</flink.version>
 		<slf4j.version>1.7.21</slf4j.version>
 		<tika.version>1.16</tika.version>
 		<log4j.version>1.2.17</log4j.version>
@@ -62,7 +83,7 @@ under the License.
 			
 			<dependency>
 				<groupId>org.apache.flink</groupId>
-				<artifactId>flink-clients_2.11</artifactId>
+                <artifactId>flink-clients_${scala.binary.version}</artifactId>
 				<version>${flink.version}</version>
 			</dependency>
 			
@@ -275,12 +296,12 @@ under the License.
 		
 		<dependency>
 			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-streaming-java_2.11</artifactId>
+            <artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.apache.flink</groupId>
-			<artifactId>flink-clients_2.11</artifactId>
+            <artifactId>flink-clients_${scala.binary.version}</artifactId>
 		</dependency>
 		
 		<dependency>
@@ -472,13 +493,13 @@ under the License.
 				</dependency>
 				<dependency>
 					<groupId>org.apache.flink</groupId>
-					<artifactId>flink-streaming-java_2.11</artifactId>
+					<artifactId>flink-streaming-java_${scala.binary.version}</artifactId>
 					<version>${flink.version}</version>
 					<scope>provided</scope>
 				</dependency>
 				<dependency>
 					<groupId>org.apache.flink</groupId>
-					<artifactId>flink-clients_2.11</artifactId>
+					<artifactId>flink-clients_${scala.binary.version}</artifactId>
 					<version>${flink.version}</version>
 					<scope>provided</scope>
 				</dependency>
