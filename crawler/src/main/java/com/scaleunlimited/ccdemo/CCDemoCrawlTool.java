@@ -15,11 +15,13 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import com.scaleunlimited.flinkcrawler.config.DurationCrawlTerminator;
+import com.scaleunlimited.flinkcrawler.config.ParserPolicy;
 import com.scaleunlimited.flinkcrawler.fetcher.BaseHttpFetcherBuilder;
 import com.scaleunlimited.flinkcrawler.fetcher.NoopHttpFetcherBuilder;
 import com.scaleunlimited.flinkcrawler.fetcher.SimpleHttpFetcherBuilder;
 import com.scaleunlimited.flinkcrawler.fetcher.commoncrawl.CommonCrawlFetcherBuilder;
-import com.scaleunlimited.flinkcrawler.focused.FocusedPageParser;
+import com.scaleunlimited.flinkcrawler.parser.SimplePageParser;
 import com.scaleunlimited.flinkcrawler.pojos.RawUrl;
 import com.scaleunlimited.flinkcrawler.sources.SeedUrlSource;
 import com.scaleunlimited.flinkcrawler.tools.CrawlToolOptions;
@@ -126,20 +128,23 @@ public class CCDemoCrawlTool {
             pageFetcherBuilder.setValidMimeTypes(validMimeTypes);
         }
 
-        CrawlTopologyBuilder builder = new CrawlTopologyBuilder(env).setUserAgent(userAgent)
+        CrawlTopologyBuilder builder = new CrawlTopologyBuilder(env)
+                .setUserAgent(userAgent)
                 .setUrlLengthener(urlLengthener)
                 .setUrlSource(new SeedUrlSource(options.getSeedUrlsFilename(), RawUrl.DEFAULT_SCORE))
+                .setCrawlTerminator(new DurationCrawlTerminator(options.getMaxCrawlDurationSec()))
                 .setRobotsFetcherBuilder(robotsFetcherBuilder).setUrlFilter(urlValidator)
                 .setSiteMapFetcherBuilder(siteMapFetcherBuilder)
                 .setPageFetcherBuilder(pageFetcherBuilder)
-                .setPageParser(new FocusedPageParser(new LanguageScorer(options.getFocusLanguage())))
+                .setPageParser(new SimplePageParser(new ParserPolicy(), new LanguageScorer(options.getFocusLanguage())))
                 .setForceCrawlDelay(options.getForceCrawlDelay())
                 .setDefaultCrawlDelay(options.getDefaultCrawlDelay())
                 .setParallelism(options.getParallelism())
+                .setIterationTimeout(options.getIterationTimeoutSec() * 1000L)
                 .setMaxOutlinksPerPage(options.getMaxOutlinksPerPage());
 
-        if (options.getOutputFile() != null) {
-            builder.setContentTextFile(options.getOutputFile());
+        if (options.getTextContentPathString() != null) {
+            builder.setTextContentPath(options.getTextContentPathString());
         }
 
         builder.build().execute();
